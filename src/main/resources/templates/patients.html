@@ -6,8 +6,7 @@
     <title>Patients</title>
     <link
       rel="stylesheet"
-      href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css"
-    />
+      href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
     <style>
       .container {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -19,42 +18,55 @@
         display: flex;
         justify-content: center;
       }
+      <style>
+        .page-item {
+            display: inline-block;
+        }
+        </style>
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>List des Patients</h1>
-      <div class="table-container">
-        <table class="table">
-          <tr>
-            <th>Id</th>
-            <th>Nom</th>
-            <th>Date naissance</th>
-            <th>Malade</th>
-            <th>Score</th>
-            <th>Actions</th>
-          </tr>
-          <tr th:each="patient : ${patients}">
-            <td th:text="${patient.id}"></td>
-            <td th:text="${patient.nom}"></td>
-            <td th:text="${patient.dateNaissance}"></td>
-            <td th:text="${patient.malade}"></td>
-            <td th:text="${patient.score}"></td>
-            <td>
-              <a href="#" class="btn btn-danger">Delete</a>
-              <a href="#" class="btn btn-primary">Update</a>
-            </td>
-          </tr>
-        </table>
-      </div>
+    <div>
+      <div class="container">
+        <h1>List des Patients</h1>
+        <div class="table-container">
+          <table class="table">
+            <tr>
+              <th>Id</th>
+              <th>Nom</th>
+              <th>Date naissance</th>
+              <th>Malade</th>
+              <th>Score</th>
+              <th>Actions</th>
+            </tr>
+            <tr th:each="patient : ${patients}">
+              <td th:text="${patient.id}"></td>
+              <td th:text="${patient.nom}"></td>
+              <td th:text="${patient.dateNaissance}"></td>
+              <td th:text="${patient.malade}"></td>
+              <td th:text="${patient.score}"></td>
+              <td>
+                <a href="#" class="btn btn-danger">Delete</a>
+                <a href="#" class="btn btn-primary">Update</a>
+              </td>
+            </tr>
+          </table>
+        </div>
 
-      <nav aria-label="Page navigation">
-        <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-        </ul>
-      </nav>
+        <div>
+          <ul class="pagination justify-item-center" >
+            <li class="page-item" th:each="page , stat : ${pages}">
+              <a
+                class="page-link"
+                th:text="${stat.index}"
+                th:href="@{/index(page=${stat.index})}"></a>
+
+                
+
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </body>
 </html>

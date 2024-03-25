@@ -21,11 +21,10 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		patientRepository.save(new Patient(null, "Hassan", new Date(), false, 4));
-		patientRepository.save(new Patient(null, "Rachid", new Date(), false, 5));
-		patientRepository.save(new Patient(null, "Salah", new Date(), true, 6));
-		patientRepository.save(new Patient(null, "Karim", new Date(), false, 7));
+		for (int i = 0; i < 20; i++) {
+			patientRepository.save(new Patient(null, "User" + i, new Date(), false, i));
 
+		}
 	}
 
 }
