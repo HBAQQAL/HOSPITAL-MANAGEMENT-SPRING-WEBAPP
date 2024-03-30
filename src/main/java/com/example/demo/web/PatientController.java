@@ -6,7 +6,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entities.Patient;
@@ -23,16 +25,33 @@ public class PatientController {
   private patientRepository patientRepository;
 
   @GetMapping(path = "/index")
-
   public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-      @RequestParam(value = "size", defaultValue = "4") int size) {
-    Page<Patient> pagePatient = patientRepository.findAll(PageRequest.of(page, size));
+      @RequestParam(value = "size", defaultValue = "4") int size,
+      @RequestParam(value = "keyword", defaultValue = "") String keyword) {
+    Page<Patient> pagePatient = patientRepository.findByNomContains(keyword, PageRequest.of(page, size));
     model.addAttribute("patients", pagePatient);
     int totalOfPages = pagePatient.getTotalPages();
     int tab[] = new int[totalOfPages];
     model.addAttribute("pages", tab);
+    model.addAttribute("keyword", keyword);
     return "patients";
-
   }
 
+  @GetMapping(path = "/delete")
+  public String deletePatient(Long id) {
+    patientRepository.deleteById(id);
+    return "redirect:/index";
+  }
+
+  @GetMapping(path = "/formPatient")
+  public String formPatient(Model model) {
+    model.addAttribute("patient", new Patient());
+    return "formPatient";
+  }
+
+  @PostMapping(path = "/savePatient")
+  public String savePatient(Patient patient) {
+    patientRepository.save(patient);
+    return "redirect:/index";
+  }
 }
