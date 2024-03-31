@@ -24,7 +24,7 @@ public class PatientController {
   @Autowired
   private patientRepository patientRepository;
 
-  @GetMapping(path = "/index")
+  @GetMapping(path = "/user/index")
   public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "4") int size,
       @RequestParam(value = "keyword", defaultValue = "") String keyword) {
@@ -37,21 +37,27 @@ public class PatientController {
     return "patients";
   }
 
-  @GetMapping(path = "/delete")
+  @GetMapping(path = "/admin/delete")
   public String deletePatient(Long id) {
     patientRepository.deleteById(id);
     return "redirect:/index";
   }
 
-  @GetMapping(path = "/formPatient")
+  @GetMapping(path = "/admin/formPatient")
   public String formPatient(Model model) {
     model.addAttribute("patient", new Patient());
     return "formPatient";
   }
 
-  @PostMapping(path = "/savePatient")
+  @PostMapping(path = "/admin/savePatient")
   public String savePatient(Patient patient) {
+    System.out.println(patient);
     patientRepository.save(patient);
     return "redirect:/index";
+  }
+
+  @GetMapping(path = "/")
+  public String home() {
+    return "redirect:/user/index";
   }
 }

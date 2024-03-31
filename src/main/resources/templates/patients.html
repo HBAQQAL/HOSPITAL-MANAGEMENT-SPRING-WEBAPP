@@ -17,7 +17,7 @@ layout:decorate="/template1">
       <div class="container">
         <h1>List des Patients</h1>
         <div>
-          <form  method="get"  th:action="@{index}"   >
+          <form  method="get"  th:action="@{/user/index}"   >
             <!-- recherche patient form -->
             <div class="input-group mb-3">
               <input
@@ -49,7 +49,7 @@ layout:decorate="/template1">
               <th>Date naissance</th>
               <th>Malade</th>
               <th>Score</th>
-              <th>Actions</th>
+              <th   th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Actions</th>
             </tr>
             <tr th:each="patient : ${patients}">
               <td th:text="${patient.id}"></td>
@@ -57,8 +57,8 @@ layout:decorate="/template1">
               <td th:text="${patient.dateNaissance}"></td>
               <td th:text="${patient.malade}"></td>
               <td th:text="${patient.score}"></td>
-              <td>
-                <a th:href="@{delete(id=${patient.id})}" class="btn btn-danger">Delete</a>
+              <td   th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <a th:href="@{/admin/delete(id=${patient.id})}" class="btn btn-danger">Delete</a>
                 <a href="#" class="btn btn-primary">Update</a>
               </td>
             </tr>
@@ -71,7 +71,7 @@ layout:decorate="/template1">
               <a
                 class="page-link"
                 th:text="${stat.index}"
-                th:href="@{/index(page=${stat.index},keyword=${keyword})}"></a>
+                th:href="@{/user/index(page=${stat.index},keyword=${keyword})}"></a>
 
             </li>
           </ul>
